@@ -372,13 +372,12 @@ function getDigitalRoot(num) {
  */
 function isBracketsBalanced(str) {
   let check = 0;
-  let result = false;
   for (let i = 0; i < str.length; i += 1) {
     if (str[i] === '[' || str[i] === '(' || str[i] === '{') {
       check += 1;
     }
     if (str[i] === ']' || str[i] === ')' || str[i] === '}') {
-      checkk -= 1;
+      check -= 1;
     }
   }
   if (check % 2 === 0) {
