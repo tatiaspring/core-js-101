@@ -232,17 +232,21 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-  const result = '';
+  let result = '';
   if (isStartIncluded) {
-    result.concat('[');
+    result = result.concat('[');
   } else {
-    result.concat('(');
+    result = result.concat('(');
   }
-  result.concat(a).concat(', ').concat(b);
-  if (isEndIncluded) {
-    result.concat(']');
+  if (a < b) {
+    result = result.concat(a).concat(', ').concat(b);
   } else {
-    result.concat(')');
+    result = result.concat(b).concat(', ').concat(a);
+  }
+  if (isEndIncluded) {
+    result = result.concat(']');
+  } else {
+    result = result.concat(')');
   }
   return result;
 }
@@ -371,19 +375,18 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-  let check = 0;
+  const brackets = '[]{}()<>';
+  const stack = [];
   for (let i = 0; i < str.length; i += 1) {
-    if (str[i] === '[' || str[i] === '(' || str[i] === '{') {
-      check += 1;
-    }
-    if (str[i] === ']' || str[i] === ')' || str[i] === '}') {
-      check -= 1;
+    const bracket = str[i];
+    const bracketsIndex = brackets.indexOf(bracket);
+    if (bracketsIndex % 2 === 0) {
+      stack.push(bracketsIndex + 1);
+    } else if (stack.pop() !== bracketsIndex) {
+      return false;
     }
   }
-  if (check % 2 === 0) {
-    return true;
-  }
-  return false;
+  return stack.length === 0;
 }
 
 
